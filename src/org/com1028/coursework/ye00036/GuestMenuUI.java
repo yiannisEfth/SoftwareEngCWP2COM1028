@@ -28,11 +28,11 @@ public class GuestMenuUI {
 
 	// Constructor for the class.
 	public GuestMenuUI() {
-		initialize();
+		initialise();
 	}
 
 	// Initialize the contents of the frame.
-	private void initialize() {
+	private void initialise() {
 		frame = new JFrame();
 		frame.setResizable(false);
 		frame.setBounds(100, 100, 555, 461);

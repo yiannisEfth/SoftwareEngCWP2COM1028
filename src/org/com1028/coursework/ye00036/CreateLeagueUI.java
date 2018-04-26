@@ -36,11 +36,11 @@ public class CreateLeagueUI {
 
 	// Constructor for the class.
 	public CreateLeagueUI() {
-		initialize();
+		initialise();
 	}
 
 	// Initialize the contents of the frame.
-	private void initialize() {
+	private void initialise() {
 
 		frame = new JFrame();
 		frame.setResizable(false);

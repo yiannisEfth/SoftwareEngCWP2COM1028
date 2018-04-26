@@ -11,7 +11,6 @@ import org.junit.Test;
 //JUnit test for the LeagueManager class
 public class LeagueManagerTest {
 
-
 	@Before
 	public void setUpBefore() throws Exception {
 		String[] teamNames = { "team1", "team2", "team3", "team4", "team5", "team6", "team7", "team8", "team9",
@@ -26,13 +25,15 @@ public class LeagueManagerTest {
 
 	@Test
 	public void getMatchFromFixture() {
-		String homeTeamName = LeagueManager.getInstance().getFixtures().get(0).getMatches().get(0).getHomeTeam().getName();
+		String homeTeamName = LeagueManager.getInstance().getFixtures().get(0).getMatches().get(0).getHomeTeam()
+				.getName();
 		assertEquals("team2", homeTeamName);
 	}
 
 	@Test
 	public void getStadiumFromFixture() {
-		String homeTeamStadium = LeagueManager.getInstance().getFixtures().get(1).getMatches().get(3).getStadium().getName();
+		String homeTeamStadium = LeagueManager.getInstance().getFixtures().get(1).getMatches().get(3).getStadium()
+				.getName();
 		assertEquals("CommonStadium", homeTeamStadium);
 	}
 

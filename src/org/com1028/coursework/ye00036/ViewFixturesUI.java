@@ -34,11 +34,11 @@ public class ViewFixturesUI {
 
 	// Constructor for the class.
 	public ViewFixturesUI() {
-		initialize();
+		initialise();
 	}
 
 	// Initialize the contents of the frame.
-	private void initialize() {
+	private void initialise() {
 		frame = new JFrame();
 		frame.setResizable(false);
 		frame.setBounds(100, 100, 800, 359);

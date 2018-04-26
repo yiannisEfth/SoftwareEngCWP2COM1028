@@ -34,11 +34,11 @@ public class LeagueStandingsUI {
 
 	// Constructor for the class.
 	public LeagueStandingsUI() {
-		initialize();
+		initialise();
 	}
 
 	// Initialize the contents of the frame.
-	private void initialize() {
+	private void initialise() {
 		frame = new JFrame();
 		frame.setResizable(false);
 		frame.setBounds(100, 100, 948, 528);

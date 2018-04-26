@@ -57,11 +57,11 @@ public class LoginUI {
 			SQLiteClass.loginFillTeams();
 			SQLiteClass.loginFillFixtures();
 		}
-		initialize();
+		initialise();
 	}
 
 	// Initialise the contents of the frame.
-	private void initialize() {
+	private void initialise() {
 		setFrame(new JFrame());
 		getFrame().setResizable(false);
 		getFrame().setBounds(100, 100, 563, 331);
