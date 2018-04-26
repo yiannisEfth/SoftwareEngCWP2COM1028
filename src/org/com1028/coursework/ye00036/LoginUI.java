@@ -13,9 +13,6 @@ import javax.swing.JPasswordField;
 import java.awt.Font;
 
 public class LoginUI {
-
-	private LeagueManager leagueManager = new LeagueManager();
-
 	private JFrame frame;
 	private JTextField usernameField;
 	private JButton loginButton;
@@ -56,7 +53,7 @@ public class LoginUI {
 		} else if (SQLiteClass.getNumberOfTeams() > 0 && SQLiteClass.getNumberOfTeams() < 16) {
 			SQLiteClass.fillTeamsUnfinishedLeague();
 		} else if (SQLiteClass.checkIfDbExists() && SQLiteClass.checkIfLeagueExists()) {
-			this.leagueManager.setLeagueExists(true);
+			LeagueManager.getInstance().setLeagueExists(true);
 			SQLiteClass.loginFillTeams();
 			SQLiteClass.loginFillFixtures();
 		}
@@ -89,7 +86,7 @@ public class LoginUI {
 		loginButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (getUsername().equals("user") && getPassword().equals("pass")) {
-					leagueManager.setIsAdmin(true);
+					LeagueManager.getInstance().setIsAdmin(true);
 					AdminMenuUI adminMenu = new AdminMenuUI();
 					adminMenu.runAdminMenu();
 					frame.setVisible(false);

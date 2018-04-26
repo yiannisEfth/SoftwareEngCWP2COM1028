@@ -184,8 +184,8 @@ public class AdminMenuUI {
 		// Display the league champion, if the league is finished.
 		if (SQLiteClass.checkIfFixtureFinished(30)) {
 			Collections.sort(LeagueManager.getInstance().getTeams(), new CustomTeamComparator());
-			league_finished_label
-					.setText("The league has finished the champion is: " + LeagueManager.getInstance().getTeams().get(0).getName());
+			league_finished_label.setText("The league has finished the champion is: "
+					+ LeagueManager.getInstance().getTeams().get(0).getName());
 			league_finished_label.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
 			;
 			league_finished_label.setBounds(130, 60, 680, 34);

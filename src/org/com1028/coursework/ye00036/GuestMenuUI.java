@@ -122,8 +122,8 @@ public class GuestMenuUI {
 		// it to the user.
 		if (SQLiteClass.checkIfFixtureFinished(30)) {
 			Collections.sort(LeagueManager.getInstance().getTeams(), new CustomTeamComparator());
-			JLabel league_finished_label = new JLabel(
-					"The league has finished the champion is: " + LeagueManager.getInstance().getTeams().get(0).getName());
+			JLabel league_finished_label = new JLabel("The league has finished the champion is: "
+					+ LeagueManager.getInstance().getTeams().get(0).getName());
 			league_finished_label.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
 			league_finished_label.setBounds(40, 45, 490, 54);
 			frame.getContentPane().add(league_finished_label);

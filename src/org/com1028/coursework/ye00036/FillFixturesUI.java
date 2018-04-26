@@ -7,6 +7,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.event.ActionListener;
+import java.util.concurrent.ThreadLocalRandom;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -237,6 +238,57 @@ public class FillFixturesUI {
 		backtomenubtn.setFont(new Font("Tahoma", Font.PLAIN, 30));
 		backtomenubtn.setBounds(181, 363, 307, 58);
 		frame.getContentPane().add(backtomenubtn);
+
+		JButton lazyFillBtn = new JButton("Lazy Result Generator");
+		// Listener for the lazy fill button. Generating scores for all matches of all
+		// fixtures.
+		lazyFillBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				for (Team t : LeagueManager.getInstance().getTeams()) {
+					t.setWins(0);
+					t.setDraws(0);
+					t.setLosses(0);
+					t.setGoalsFor(0);
+					t.setGoalsAgainst(0);
+				}
+				SQLiteClass.resetTeams();
+				for (Fixture f : LeagueManager.getInstance().getFixtures()) {
+					f.setFinished(true);
+					for (int i = 0; i < 8; i++) {
+						int homeScoreGenerated = ThreadLocalRandom.current().nextInt(0, 16);
+						int awayScoreGenerated = ThreadLocalRandom.current().nextInt(0, 16);
+						f.getMatches().get(i).setHomeScore(homeScoreGenerated);
+						f.getMatches().get(i).setAwayScore(awayScoreGenerated);
+						f.getMatches().get(i).getHomeTeam().setGoalsFor(homeScoreGenerated);
+						f.getMatches().get(i).getAwayTeam().setGoalsFor(awayScoreGenerated);
+						f.getMatches().get(i).getHomeTeam().setGoalsAgainst(awayScoreGenerated);
+						f.getMatches().get(i).getAwayTeam().setGoalsAgainst(homeScoreGenerated);
+
+						int homeScore = f.getMatches().get(i).getHomeScore();
+						int awayScore = f.getMatches().get(i).getAwayScore();
+						Team homeTeam = f.getMatches().get(i).getHomeTeam();
+						Team awayTeam = f.getMatches().get(i).getAwayTeam();
+						if (homeScore > awayScore) {
+							homeTeam.setWins(homeTeam.getWins() + 1);
+							awayTeam.setLosses(awayTeam.getLosses() + 1);
+						} else if (awayScore > homeScore) {
+							awayTeam.setWins(awayTeam.getWins() + 1);
+							homeTeam.setLosses(homeTeam.getLosses() + 1);
+						} else {
+							homeTeam.setDraws(homeTeam.getDraws() + 1);
+							awayTeam.setDraws(awayTeam.getDraws() + 1);
+						}
+						SQLiteClass.updateScore(homeTeam, awayTeam, homeScore, awayScore);
+
+					}
+				}
+				JOptionPane.showMessageDialog(null, "All match results for all fixtures have been generated.",
+						"Fixtures filled", JOptionPane.INFORMATION_MESSAGE);
+			}
+		});
+		lazyFillBtn.setFont(new Font("Lucida Grande", Font.PLAIN, 17));
+		lazyFillBtn.setBounds(607, 20, 257, 60);
+		frame.getContentPane().add(lazyFillBtn);
 		// ComboBox listener to alter the table appropriately when a fixture is chosen.
 		comboBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

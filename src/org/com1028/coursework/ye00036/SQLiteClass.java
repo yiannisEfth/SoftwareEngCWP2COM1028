@@ -454,4 +454,26 @@ public class SQLiteClass {
 		}
 	}
 
+	/**
+	 * Method used to reset team statistics.
+	 */
+	public static void resetTeams() {
+		String sql = "UPDATE Teams SET wins = ?, draws = ?, losses = ?, goals_for = ?, goals_against = ?";
+		try (Connection conn = DriverManager.getConnection(url)) {
+			if (conn != null) {
+				PreparedStatement stmt = conn.prepareStatement(sql);
+				stmt.setInt(1, 0);
+				stmt.setInt(2, 0);
+				stmt.setInt(3, 0);
+				stmt.setInt(4, 0);
+				stmt.setInt(5, 0);
+				stmt.close();
+				conn.close();
+			}
+
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+	}
+
 }

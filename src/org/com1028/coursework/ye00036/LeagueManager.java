@@ -18,15 +18,16 @@ public class LeagueManager {
 	 * of league.
 	 */
 	protected LeagueManager() {
-		
+
 	}
 
 	public static LeagueManager getInstance() {
-		if(instance == null) {
-			instance =  new LeagueManager();
+		if (instance == null) {
+			instance = new LeagueManager();
 		}
 		return instance;
 	}
+
 	// Method to get the list of teams in the league.
 	public List<Team> getTeams() {
 		return teams;
@@ -114,6 +115,41 @@ public class LeagueManager {
 				Match matchMadeReverse = new Match(teams.get(away), teams.get(home));
 				SQLiteClass.insertMatch(teams.get(away), teams.get(home), round + 15);
 				;
+				matchesReverse.add(matchMadeReverse);
+
+			}
+			Fixture fixture = new Fixture(matches, round);
+			fixtures.add(fixture);
+			Fixture fixtureRematch = new Fixture(matchesReverse, round + 15);
+			fixtures.add(fixtureRematch);
+		}
+	}
+
+	/**
+	 * Same method as above with the SQL commands excluded in order to be used for
+	 * testing(JUnit) without messing up the database.
+	 */
+	public void generateFixturesForTesting() {
+		for (int round = 1; round <= TOTAL_ROUNDS; round++) {
+			List<Match> matches = new ArrayList<Match>();
+			List<Match> matchesReverse = new ArrayList<Match>();
+			for (int match = 0; match < MATCHES_PER_ROUND; match++) {
+				int home = (round + match) % (TOTAL_TEAMS - 1);
+				int away = (TOTAL_TEAMS - 1 - match + round) % (TOTAL_TEAMS - 1);
+				// Last team stays in the same place while the others
+				// rotate around it.
+				if (match == 0) {
+					away = TOTAL_TEAMS - 1;
+				}
+				// Add one so teams are number 1 to teams not 0 to teams - 1
+				// upon display.
+				Match matchMade = new Match(teams.get(home), teams.get(away));
+				// SQLiteClass.insertMatch(teams.get(home), teams.get(away), round);
+
+				matches.add(matchMade);
+				Match matchMadeReverse = new Match(teams.get(away), teams.get(home));
+				// SQLiteClass.insertMatch(teams.get(away), teams.get(home), round + 15);
+
 				matchesReverse.add(matchMadeReverse);
 
 			}
