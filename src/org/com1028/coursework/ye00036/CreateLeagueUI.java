@@ -20,7 +20,6 @@ public class CreateLeagueUI {
 	private JTextField teamNameInput;
 	private JTextField StadiumInput;
 	private JTextField capacityInput;
-	private LeagueManager leagueManager = null;
 	private JButton backToAdminBtn;
 	private JTable table;
 	private JScrollPane scrollPane;
@@ -28,7 +27,7 @@ public class CreateLeagueUI {
 	// Method to run the createLeagueUI.
 	public void runCreateLeagueView() {
 		try {
-			CreateLeagueUI leagueView = new CreateLeagueUI(leagueManager);
+			CreateLeagueUI leagueView = new CreateLeagueUI();
 			leagueView.frame.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -36,8 +35,7 @@ public class CreateLeagueUI {
 	}
 
 	// Constructor for the class.
-	public CreateLeagueUI(final LeagueManager leagueManager) {
-		this.leagueManager = leagueManager;
+	public CreateLeagueUI() {
 		initialize();
 	}
 
@@ -106,7 +104,7 @@ public class CreateLeagueUI {
 		save_team_btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				boolean teamExists = false;
-				for (Team t : leagueManager.getTeams()) {
+				for (Team t : LeagueManager.getInstance().getTeams()) {
 					if (t.getName().equals(teamNameInput.getText())) {
 						teamExists = true;
 					}
@@ -133,7 +131,7 @@ public class CreateLeagueUI {
 					SQLiteClass.insertTeam(teamToInsert, stadiumName, stadiumCapacity);
 					Stadium stadium = new Stadium(stadiumName, stadiumCapacity);
 					Team team = new Team(teamToInsert, stadium);
-					leagueManager.insertTeam(team);
+					LeagueManager.getInstance().insertTeam(team);
 					JOptionPane.showMessageDialog(null, "Team Inserted Successfully");
 					updateTable(model);
 					teamNameInput.setText("");
@@ -144,8 +142,8 @@ public class CreateLeagueUI {
 						JOptionPane.showMessageDialog(null,
 								"16 Teams have been entered and the league has been created. Returning to admin menu.",
 								"League Creation Complete", JOptionPane.INFORMATION_MESSAGE);
-						leagueManager.generateFixtures();
-						AdminMenuUI adminMenu = new AdminMenuUI(leagueManager);
+						LeagueManager.getInstance().generateFixtures();
+						AdminMenuUI adminMenu = new AdminMenuUI();
 						adminMenu.runAdminMenu();
 						frame.setVisible(false);
 						frame.dispose();
@@ -164,7 +162,7 @@ public class CreateLeagueUI {
 		backToAdminBtn.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent arg0) {
-				AdminMenuUI adminMenu = new AdminMenuUI(leagueManager);
+				AdminMenuUI adminMenu = new AdminMenuUI();
 				adminMenu.getFrame().setVisible(true);
 				frame.setVisible(false);
 				frame.dispose();
@@ -177,7 +175,7 @@ public class CreateLeagueUI {
 		JButton btnNewButton = new JButton("<html>Lazy<br>Team<br>Generator</html>");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				leagueManager.clearList();
+				LeagueManager.getInstance().clearList();
 				model.setRowCount(0);
 				Stadium stadium1 = new Stadium("Team1 Stadium",23000);
 				Stadium stadium2 = new Stadium("Team2 Stadium",43000);
@@ -201,15 +199,15 @@ public class CreateLeagueUI {
 				SQLiteClass.createDB();
 				for(int i = 0; i < 16; i++) {
 					Team team = new Team(teamNames[i], stadiums[i]);
-					leagueManager.insertTeam(team);
+					LeagueManager.getInstance().insertTeam(team);
 					SQLiteClass.insertTeam(teamNames[i], stadiums[i].getName(), stadiums[i].getCapacity());
 				}
 				loadTable(model);
 				JOptionPane.showMessageDialog(null,
 						"16 Teams have been entered and the league has been created. Returning to admin menu.",
 						"League Creation Complete", JOptionPane.INFORMATION_MESSAGE);
-				leagueManager.generateFixtures();
-				AdminMenuUI adminMenu = new AdminMenuUI(leagueManager);
+				LeagueManager.getInstance().generateFixtures();
+				AdminMenuUI adminMenu = new AdminMenuUI();
 				adminMenu.runAdminMenu();
 				frame.setVisible(false);
 				frame.dispose();
@@ -230,10 +228,10 @@ public class CreateLeagueUI {
 	 *            used to add the data to the table's rows.
 	 */
 	public void loadTable(DefaultTableModel model) {
-		for (int i = 0; i < leagueManager.getTeams().size(); i++) {
-			String name = leagueManager.getTeams().get(i).getName();
-			String stadiumName = leagueManager.getTeams().get(i).getStadium().getName();
-			int capacity = leagueManager.getTeams().get(i).getStadium().getCapacity();
+		for (int i = 0; i < LeagueManager.getInstance().getTeams().size(); i++) {
+			String name = LeagueManager.getInstance().getTeams().get(i).getName();
+			String stadiumName = LeagueManager.getInstance().getTeams().get(i).getStadium().getName();
+			int capacity = LeagueManager.getInstance().getTeams().get(i).getStadium().getCapacity();
 			Object[] data = { name, stadiumName, capacity };
 			model.addRow(data);
 		}
@@ -246,10 +244,10 @@ public class CreateLeagueUI {
 	 *            used to add the data to the table's rows.
 	 */
 	public void updateTable(DefaultTableModel model) {
-		int lastTeam = leagueManager.getTeams().size() - 1;
-		String name = leagueManager.getTeams().get(lastTeam).getName();
-		String stadiumName = leagueManager.getTeams().get(lastTeam).getStadium().getName();
-		int capacity = leagueManager.getTeams().get(lastTeam).getStadium().getCapacity();
+		int lastTeam = LeagueManager.getInstance().getTeams().size() - 1;
+		String name = LeagueManager.getInstance().getTeams().get(lastTeam).getName();
+		String stadiumName = LeagueManager.getInstance().getTeams().get(lastTeam).getStadium().getName();
+		int capacity = LeagueManager.getInstance().getTeams().get(lastTeam).getStadium().getCapacity();
 		Object[] data = { name, stadiumName, capacity };
 		model.addRow(data);
 

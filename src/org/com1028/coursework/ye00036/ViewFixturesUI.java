@@ -20,13 +20,12 @@ import java.awt.event.ActionEvent;
 public class ViewFixturesUI {
 
 	private JFrame frame;
-	private LeagueManager leagueManager = null;
 	private JTable table;
 
 	// Method to run the TeamStatsUI.
 	public void runViewFixturesUI() {
 		try {
-			ViewFixturesUI fixturesUI = new ViewFixturesUI(leagueManager);
+			ViewFixturesUI fixturesUI = new ViewFixturesUI();
 			fixturesUI.frame.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -34,8 +33,7 @@ public class ViewFixturesUI {
 	}
 
 	// Constructor for the class.
-	public ViewFixturesUI(final LeagueManager leagueManager) {
-		this.leagueManager = leagueManager;
+	public ViewFixturesUI() {
 		initialize();
 	}
 
@@ -86,13 +84,13 @@ public class ViewFixturesUI {
 		// Listener for the back to menu button.
 		backtoadminmenulbl.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (leagueManager.getIsAdmin()) {
-					AdminMenuUI adminMenu = new AdminMenuUI(leagueManager);
+				if (LeagueManager.getInstance().getIsAdmin()) {
+					AdminMenuUI adminMenu = new AdminMenuUI();
 					adminMenu.getFrame().setVisible(true);
 					frame.setVisible(false);
 					frame.dispose();
 				} else {
-					GuestMenuUI gmUI = new GuestMenuUI(leagueManager);
+					GuestMenuUI gmUI = new GuestMenuUI();
 					gmUI.runGuestMenuUI();
 					frame.setVisible(false);
 					frame.dispose();
@@ -123,7 +121,7 @@ public class ViewFixturesUI {
 	 */
 	public void fillTable(DefaultTableModel model, int fixtureNumber) {
 		model.setRowCount(0);
-		for (Fixture f : leagueManager.getFixtures()) {
+		for (Fixture f : LeagueManager.getInstance().getFixtures()) {
 			if (f.getFixtureNumber() == fixtureNumber) {
 				if (f.isFinished()) {
 					for (Match m : f.getMatches()) {

@@ -19,13 +19,12 @@ import java.awt.event.ActionEvent;
 public class LeagueStandingsUI {
 
 	private JFrame frame;
-	private LeagueManager leagueManager = null;
 	private JTable table;
 
 	// Method to run the LeagueStandingsUI.
 	public void runLeagueStandingsUI() {
 		try {
-			LeagueStandingsUI lsUI = new LeagueStandingsUI(leagueManager);
+			LeagueStandingsUI lsUI = new LeagueStandingsUI();
 			lsUI.frame.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -34,8 +33,7 @@ public class LeagueStandingsUI {
 	}
 
 	// Constructor for the class.
-	public LeagueStandingsUI(final LeagueManager leagueManager) {
-		this.leagueManager = leagueManager;
+	public LeagueStandingsUI() {
 		initialize();
 	}
 
@@ -71,13 +69,13 @@ public class LeagueStandingsUI {
 		// Listener for the back to menu button.
 		backtomenubtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (leagueManager.getIsAdmin()) {
-					AdminMenuUI adminMenu = new AdminMenuUI(leagueManager);
+				if (LeagueManager.getInstance().getIsAdmin()) {
+					AdminMenuUI adminMenu = new AdminMenuUI();
 					adminMenu.getFrame().setVisible(true);
 					frame.setVisible(false);
 					frame.dispose();
 				} else {
-					GuestMenuUI gmUI = new GuestMenuUI(leagueManager);
+					GuestMenuUI gmUI = new GuestMenuUI();
 					gmUI.runGuestMenuUI();
 					frame.setVisible(false);
 					frame.dispose();
@@ -89,9 +87,9 @@ public class LeagueStandingsUI {
 		frame.getContentPane().add(backtomenubtn);
 		// Sorting the teams using the custom comparator and then displaying them in the
 		// standings table.
-		Collections.sort(leagueManager.getTeams(), new CustomTeamComparator());
+		Collections.sort(LeagueManager.getInstance().getTeams(), new CustomTeamComparator());
 		int i = 1;
-		for (Team t : leagueManager.getTeams()) {
+		for (Team t : LeagueManager.getInstance().getTeams()) {
 			Object[] team = { i, t.getName(), t.getPoints(), t.getWins(), t.getDraws(), t.getLosses(), t.getGoalsFor(),
 					t.getGoalsAgainst(), t.getGoalDifference() };
 			model.addRow(team);

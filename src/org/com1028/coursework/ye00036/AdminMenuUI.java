@@ -13,18 +13,15 @@ import java.awt.event.ActionEvent;
 public class AdminMenuUI {
 	private JFrame frame;
 
-	private LeagueManager leagueManager = null;
-
 	// Method to run the admin menu UI.
 	public void runAdminMenu() {
-		AdminMenuUI adminMenu = new AdminMenuUI(leagueManager);
+		AdminMenuUI adminMenu = new AdminMenuUI();
 		adminMenu.frame.setVisible(true);
 
 	}
 
 	// Constructor for the class
-	public AdminMenuUI(final LeagueManager leagueManager) {
-		this.leagueManager = leagueManager;
+	public AdminMenuUI() {
 		initialize();
 	}
 
@@ -57,7 +54,7 @@ public class AdminMenuUI {
 							"A league already exists. Please fill the results or disband the league to start a new one.",
 							"League already exists", JOptionPane.INFORMATION_MESSAGE);
 				} else {
-					CreateLeagueUI createLeague = new CreateLeagueUI(leagueManager);
+					CreateLeagueUI createLeague = new CreateLeagueUI();
 					createLeague.runCreateLeagueView();
 					frame.setVisible(false);
 					frame.dispose();
@@ -76,7 +73,7 @@ public class AdminMenuUI {
 					JOptionPane.showMessageDialog(null, "A league doesn't exist. Please create a league first.",
 							"League doesn't exist", JOptionPane.INFORMATION_MESSAGE);
 				} else {
-					ViewFixturesUI fixturesUI = new ViewFixturesUI(leagueManager);
+					ViewFixturesUI fixturesUI = new ViewFixturesUI();
 					fixturesUI.runViewFixturesUI();
 					frame.setVisible(false);
 					frame.dispose();
@@ -98,7 +95,7 @@ public class AdminMenuUI {
 					JOptionPane.showMessageDialog(null, "The league has finished. No results to fill.",
 							"League finished", JOptionPane.INFORMATION_MESSAGE);
 				} else {
-					FillFixturesUI ffui = new FillFixturesUI(leagueManager);
+					FillFixturesUI ffui = new FillFixturesUI();
 					ffui.runFillFixturesUI();
 					frame.setVisible(false);
 					frame.dispose();
@@ -117,7 +114,7 @@ public class AdminMenuUI {
 					JOptionPane.showMessageDialog(null, "A league doesn't exist. Please create a league first.",
 							"League doesn't exist", JOptionPane.INFORMATION_MESSAGE);
 				} else {
-					TeamStatsUI tsUI = new TeamStatsUI(leagueManager);
+					TeamStatsUI tsUI = new TeamStatsUI();
 					tsUI.runTeamStatsUI();
 					frame.setVisible(false);
 					frame.dispose();
@@ -136,7 +133,7 @@ public class AdminMenuUI {
 					JOptionPane.showMessageDialog(null, "A league doesn't exist. Please create a league first.",
 							"League doesn't exist", JOptionPane.INFORMATION_MESSAGE);
 				} else {
-					LeagueStandingsUI lsUI = new LeagueStandingsUI(leagueManager);
+					LeagueStandingsUI lsUI = new LeagueStandingsUI();
 					lsUI.runLeagueStandingsUI();
 					frame.setVisible(false);
 					frame.dispose();
@@ -159,7 +156,7 @@ public class AdminMenuUI {
 							"Are you sure you wish to delete the current league? All data will be lost.",
 							"Delete League", JOptionPane.YES_NO_OPTION);
 					if (deleteLeague == 0) {
-						leagueManager.clearList();
+						LeagueManager.getInstance().clearList();
 						league_finished_label.setVisible(false);
 						SQLiteClass.disbandLeague();
 						SQLiteClass.createDB();
@@ -176,7 +173,7 @@ public class AdminMenuUI {
 		JButton exit_button = new JButton("Exit To Login");
 		exit_button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				LoginUI login = new LoginUI(leagueManager);
+				LoginUI login = new LoginUI();
 				login.getFrame().setVisible(true);
 				closeWindow();
 			}
@@ -186,9 +183,9 @@ public class AdminMenuUI {
 		getFrame().getContentPane().add(exit_button);
 		// Display the league champion, if the league is finished.
 		if (SQLiteClass.checkIfFixtureFinished(30)) {
-			Collections.sort(leagueManager.getTeams(), new CustomTeamComparator());
+			Collections.sort(LeagueManager.getInstance().getTeams(), new CustomTeamComparator());
 			league_finished_label
-					.setText("The league has finished the champion is: " + leagueManager.getTeams().get(0).getName());
+					.setText("The league has finished the champion is: " + LeagueManager.getInstance().getTeams().get(0).getName());
 			league_finished_label.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
 			;
 			league_finished_label.setBounds(130, 60, 680, 34);

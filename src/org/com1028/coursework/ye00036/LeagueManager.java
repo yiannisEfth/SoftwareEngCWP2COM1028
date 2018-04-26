@@ -4,27 +4,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LeagueManager {
-
+	private static LeagueManager instance = null;
 	private static final int TOTAL_TEAMS = 16;
 	private static final int TOTAL_ROUNDS = 15;
 	private static final int MATCHES_PER_ROUND = 8;
-	private List<Team> teams;
-	private List<Fixture> fixtures;
-	private boolean leagueExists;
-	private boolean isAdmin;
+	private List<Team> teams = new ArrayList<Team>();
+	private List<Fixture> fixtures = new ArrayList<Fixture>();
+	private boolean leagueExists = false;
+	private boolean isAdmin = false;
 
 	/**
 	 * Constructor for the LeagueManager class initialising the list and existence
 	 * of league.
 	 */
-	public LeagueManager() {
-		super();
-		this.teams = new ArrayList<Team>();
-		this.fixtures = new ArrayList<Fixture>();
-		this.leagueExists = false;
-		this.isAdmin = false;
+	protected LeagueManager() {
+		
 	}
 
+	public static LeagueManager getInstance() {
+		if(instance == null) {
+			instance =  new LeagueManager();
+		}
+		return instance;
+	}
 	// Method to get the list of teams in the league.
 	public List<Team> getTeams() {
 		return teams;

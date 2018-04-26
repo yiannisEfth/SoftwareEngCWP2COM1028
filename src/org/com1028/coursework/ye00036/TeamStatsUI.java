@@ -18,7 +18,6 @@ import javax.swing.JButton;
 public class TeamStatsUI {
 
 	private JFrame frame;
-	private LeagueManager leagueManager = null;
 	private JTable table;
 	private JLabel teamnamebox;
 	private JLabel winsbox;
@@ -34,7 +33,7 @@ public class TeamStatsUI {
 	// Method to run the TeamStatsUI.
 	public void runTeamStatsUI() {
 		try {
-			TeamStatsUI tsUI = new TeamStatsUI(leagueManager);
+			TeamStatsUI tsUI = new TeamStatsUI();
 			tsUI.frame.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -42,8 +41,7 @@ public class TeamStatsUI {
 	}
 
 	// Constructor for the class.
-	public TeamStatsUI(final LeagueManager leagueManager) {
-		this.leagueManager = leagueManager;
+	public TeamStatsUI() {
 		initialize();
 	}
 
@@ -189,13 +187,13 @@ public class TeamStatsUI {
 		// Listener for the back to menu button.
 		backtomenubtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (leagueManager.getIsAdmin()) {
-					AdminMenuUI adminMenu = new AdminMenuUI(leagueManager);
+				if (LeagueManager.getInstance().getIsAdmin()) {
+					AdminMenuUI adminMenu = new AdminMenuUI();
 					adminMenu.getFrame().setVisible(true);
 					frame.setVisible(false);
 					frame.dispose();
 				} else {
-					GuestMenuUI gmUI = new GuestMenuUI(leagueManager);
+					GuestMenuUI gmUI = new GuestMenuUI();
 					gmUI.runGuestMenuUI();
 					frame.setVisible(false);
 					frame.dispose();
@@ -206,7 +204,7 @@ public class TeamStatsUI {
 		frame.getContentPane().add(backtomenubtn);
 		DefaultTableModel model = (DefaultTableModel) table.getModel();
 		// Adds the names of each team as comboBox items to be selected by the user.
-		for (Team t : leagueManager.getTeams()) {
+		for (Team t : LeagueManager.getInstance().getTeams()) {
 			comboBox.addItem(t.getName());
 		}
 		comboBox.setSelectedIndex(-1);
@@ -231,7 +229,7 @@ public class TeamStatsUI {
 	 *            the team name fetched from the comboBox to view the matches for.
 	 */
 	public void fillTable(DefaultTableModel model, String selectedTeam) {
-		for (Fixture f : leagueManager.getFixtures()) {
+		for (Fixture f : LeagueManager.getInstance().getFixtures()) {
 			for (Match m : f.getMatches()) {
 				if (m.getHomeTeam().getName() == selectedTeam || m.getAwayTeam().getName() == selectedTeam) {
 					if (f.isFinished()) {
@@ -266,7 +264,7 @@ public class TeamStatsUI {
 	 *            team selected from the comboBox to display the statistics for.
 	 */
 	public void updateLabels(String selectedTeam) {
-		for (Team t : leagueManager.getTeams()) {
+		for (Team t : LeagueManager.getInstance().getTeams()) {
 			if (t.getName() == selectedTeam) {
 				teamnamebox.setText(t.getName());
 				winsbox.setText(String.valueOf(t.getWins()));

@@ -22,7 +22,6 @@ import java.awt.Color;
 public class FillFixturesUI {
 	private JFrame frame;
 	private JTable table;
-	private LeagueManager leagueManager = null;
 	private JTextField homeTeam1;
 	private JTextField awayTeam1;
 	private JTextField homeTeam2;
@@ -44,7 +43,7 @@ public class FillFixturesUI {
 	// Method to run the createLeagueUI.
 	public void runFillFixturesUI() {
 		try {
-			FillFixturesUI fillFixturesUI = new FillFixturesUI(leagueManager);
+			FillFixturesUI fillFixturesUI = new FillFixturesUI();
 			fillFixturesUI.frame.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -52,8 +51,7 @@ public class FillFixturesUI {
 	}
 
 	// Constructor for the class.
-	public FillFixturesUI(final LeagueManager leagueManager) {
-		this.leagueManager = leagueManager;
+	public FillFixturesUI() {
 		initialize();
 	}
 
@@ -229,7 +227,7 @@ public class FillFixturesUI {
 		// Back to admin menu button listener.
 		backtomenubtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				AdminMenuUI adminMenu = new AdminMenuUI(leagueManager);
+				AdminMenuUI adminMenu = new AdminMenuUI();
 				adminMenu.getFrame().setVisible(true);
 				frame.setVisible(false);
 				frame.dispose();
@@ -265,7 +263,7 @@ public class FillFixturesUI {
 	 */
 	public void showFixtureMatches(DefaultTableModel model, int fixture) {
 		model.setRowCount(0);
-		for (Fixture f : leagueManager.getFixtures()) {
+		for (Fixture f : LeagueManager.getInstance().getFixtures()) {
 			if (f.getFixtureNumber() == fixture) {
 				for (int i = 0; i < f.getMatches().size(); i++) {
 					String homeTeam = f.getMatches().get(i).getHomeTeam().getName();
@@ -286,7 +284,7 @@ public class FillFixturesUI {
 	public void fillFixture(int fixture) {
 		JTextField[] fields = { homeTeam1, awayTeam1, homeTeam2, awayTeam2, homeTeam3, awayTeam3, homeTeam4, awayTeam4,
 				homeTeam5, awayTeam5, homeTeam6, awayTeam6, homeTeam7, awayTeam7, homeTeam8, awayTeam8 };
-		for (Fixture f : leagueManager.getFixtures()) {
+		for (Fixture f : LeagueManager.getInstance().getFixtures()) {
 			if (f.getFixtureNumber() == fixture) {
 				f.setFinished(true);
 				for (int i = 1; i < 9; i++) {
@@ -355,7 +353,7 @@ public class FillFixturesUI {
 	 */
 	public boolean checkFixtureFinished(int fixtureNumber) {
 		boolean toReturn = false;
-		for (Fixture f : leagueManager.getFixtures()) {
+		for (Fixture f : LeagueManager.getInstance().getFixtures()) {
 			if (f.getFixtureNumber() == fixtureNumber) {
 				toReturn = f.isFinished();
 			}

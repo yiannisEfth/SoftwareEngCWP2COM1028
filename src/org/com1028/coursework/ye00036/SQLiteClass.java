@@ -132,11 +132,8 @@ public class SQLiteClass {
 
 	/**
 	 * Method to fill the list of teams for an unfinished league.
-	 * 
-	 * @param lm
-	 *            the league manager instance to have the teams inserted in.
 	 */
-	public static void fillTeamsUnfinishedLeague(LeagueManager lm) {
+	public static void fillTeamsUnfinishedLeague() {
 		String getTeamsQuery = "SELECT * FROM Teams";
 		try {
 			Connection conn = DriverManager.getConnection(url);
@@ -145,7 +142,7 @@ public class SQLiteClass {
 			while (rs.next()) {
 				String teamName = rs.getString("name");
 				Team team = new Team(teamName, getStadiumOfTeam(teamName));
-				lm.insertTeam(team);
+				LeagueManager.getInstance().insertTeam(team);
 			}
 			rs.close();
 			stmt.close();
@@ -351,11 +348,8 @@ public class SQLiteClass {
 
 	/**
 	 * Method used to fill the teams of a league if the league exists on startup.
-	 * 
-	 * @param lm
-	 *            the instance of LeagueManager to insert the teams into.
 	 */
-	public static void loginFillTeams(LeagueManager lm) {
+	public static void loginFillTeams() {
 		String selectTeams = "SELECT * FROM Teams";
 
 		try {
@@ -376,7 +370,7 @@ public class SQLiteClass {
 				team.setLosses(losses);
 				team.setGoalsFor(goalsFor);
 				team.setGoalsAgainst(goalsAgainst);
-				lm.insertTeam(team);
+				LeagueManager.getInstance().insertTeam(team);
 			}
 			stmt.close();
 			conn.close();
@@ -387,11 +381,8 @@ public class SQLiteClass {
 
 	/**
 	 * Method used to fill the fixtures of a league if it exists on startup.
-	 * 
-	 * @param lm
-	 *            the instance of LeagueManager used to insert the fixtures into.
 	 */
-	public static void loginFillFixtures(LeagueManager lm) {
+	public static void loginFillFixtures() {
 		String selectMatches = "SELECT * FROM Matches WHERE fixture = ?";
 		try {
 			Connection conn = DriverManager.getConnection(url);
@@ -407,7 +398,7 @@ public class SQLiteClass {
 					String homeTeamName = rs.getString("home_team");
 					String awayTeamName = rs.getString("away_team");
 
-					for (Team t : lm.getTeams()) {
+					for (Team t : LeagueManager.getInstance().getTeams()) {
 						if (homeTeamName.equals(t.getName())) {
 							homeTeam = t;
 						}
@@ -430,9 +421,9 @@ public class SQLiteClass {
 				Fixture fixture = new Fixture(matches, i);
 				if (isFixtureFinished == 1) {
 					fixture.setFinished(true);
-					lm.insertFixture(fixture);
+					LeagueManager.getInstance().insertFixture(fixture);
 				} else {
-					lm.insertFixture(fixture);
+					LeagueManager.getInstance().insertFixture(fixture);
 				}
 			}
 		} catch (SQLException e) {

@@ -15,12 +15,11 @@ import java.awt.event.ActionEvent;
 public class GuestMenuUI {
 
 	private JFrame frame;
-	private LeagueManager leagueManager = null;
 
 	// Method to run the runGuestMenuUI.
 	public void runGuestMenuUI() {
 		try {
-			GuestMenuUI gmUI = new GuestMenuUI(leagueManager);
+			GuestMenuUI gmUI = new GuestMenuUI();
 			gmUI.frame.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -28,8 +27,7 @@ public class GuestMenuUI {
 	}
 
 	// Constructor for the class.
-	public GuestMenuUI(final LeagueManager leagueManager) {
-		this.leagueManager = leagueManager;
+	public GuestMenuUI() {
 		initialize();
 	}
 
@@ -61,7 +59,7 @@ public class GuestMenuUI {
 					JOptionPane.showMessageDialog(null, "A league doesn't exist.", "League doesn't exist",
 							JOptionPane.INFORMATION_MESSAGE);
 				} else {
-					ViewFixturesUI fixturesUI = new ViewFixturesUI(leagueManager);
+					ViewFixturesUI fixturesUI = new ViewFixturesUI();
 					fixturesUI.runViewFixturesUI();
 					frame.setVisible(false);
 					frame.dispose();
@@ -79,7 +77,7 @@ public class GuestMenuUI {
 					JOptionPane.showMessageDialog(null, "A league doesn't exist.", "League doesn't exist",
 							JOptionPane.INFORMATION_MESSAGE);
 				} else {
-					LeagueStandingsUI lsUI = new LeagueStandingsUI(leagueManager);
+					LeagueStandingsUI lsUI = new LeagueStandingsUI();
 					lsUI.runLeagueStandingsUI();
 					frame.setVisible(false);
 					frame.dispose();
@@ -97,7 +95,7 @@ public class GuestMenuUI {
 					JOptionPane.showMessageDialog(null, "A league doesn't exist.", "League doesn't exist",
 							JOptionPane.INFORMATION_MESSAGE);
 				} else {
-					TeamStatsUI tsUI = new TeamStatsUI(leagueManager);
+					TeamStatsUI tsUI = new TeamStatsUI();
 					tsUI.runTeamStatsUI();
 					frame.setVisible(false);
 					frame.dispose();
@@ -111,7 +109,7 @@ public class GuestMenuUI {
 		JButton btnExitToLogin = new JButton("Exit To Login");
 		btnExitToLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				LoginUI login = new LoginUI(leagueManager);
+				LoginUI login = new LoginUI();
 				login.getFrame().setVisible(true);
 				frame.setVisible(false);
 				frame.dispose();
@@ -123,9 +121,9 @@ public class GuestMenuUI {
 		// Check if fixture 30 is finished therefore declaring a champion and displaying
 		// it to the user.
 		if (SQLiteClass.checkIfFixtureFinished(30)) {
-			Collections.sort(leagueManager.getTeams(), new CustomTeamComparator());
+			Collections.sort(LeagueManager.getInstance().getTeams(), new CustomTeamComparator());
 			JLabel league_finished_label = new JLabel(
-					"The league has finished the champion is: " + leagueManager.getTeams().get(0).getName());
+					"The league has finished the champion is: " + LeagueManager.getInstance().getTeams().get(0).getName());
 			league_finished_label.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
 			league_finished_label.setBounds(40, 45, 490, 54);
 			frame.getContentPane().add(league_finished_label);

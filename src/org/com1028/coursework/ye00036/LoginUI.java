@@ -38,7 +38,7 @@ public class LoginUI {
 	// Method to run the TeamStatsUI.
 	public static void runLogin() {
 		try {
-			LoginUI login = new LoginUI(new LeagueManager());
+			LoginUI login = new LoginUI();
 			login.getFrame().setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -48,18 +48,17 @@ public class LoginUI {
 
 	// Constructor for the class. Checks whether the database exists, or how many
 	// teams are entered or if the league exists and does the appropriate actions.
-	public LoginUI(LeagueManager leagueManager) {
-		leagueManager.clearList();
-		leagueManager.setIsAdmin(false);
-		this.leagueManager = leagueManager;
+	public LoginUI() {
+		LeagueManager.getInstance().clearList();
+		LeagueManager.getInstance().setIsAdmin(false);
 		if (!SQLiteClass.checkIfDbExists()) {
 			SQLiteClass.createDB();
 		} else if (SQLiteClass.getNumberOfTeams() > 0 && SQLiteClass.getNumberOfTeams() < 16) {
-			SQLiteClass.fillTeamsUnfinishedLeague(leagueManager);
+			SQLiteClass.fillTeamsUnfinishedLeague();
 		} else if (SQLiteClass.checkIfDbExists() && SQLiteClass.checkIfLeagueExists()) {
 			this.leagueManager.setLeagueExists(true);
-			SQLiteClass.loginFillTeams(leagueManager);
-			SQLiteClass.loginFillFixtures(leagueManager);
+			SQLiteClass.loginFillTeams();
+			SQLiteClass.loginFillFixtures();
 		}
 		initialize();
 	}
@@ -91,7 +90,7 @@ public class LoginUI {
 			public void actionPerformed(ActionEvent e) {
 				if (getUsername().equals("user") && getPassword().equals("pass")) {
 					leagueManager.setIsAdmin(true);
-					AdminMenuUI adminMenu = new AdminMenuUI(leagueManager);
+					AdminMenuUI adminMenu = new AdminMenuUI();
 					adminMenu.runAdminMenu();
 					frame.setVisible(false);
 					frame.dispose();
@@ -107,7 +106,7 @@ public class LoginUI {
 		// Listener for the continue as guest button.
 		continueAsGuestButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				GuestMenuUI gmUI = new GuestMenuUI(leagueManager);
+				GuestMenuUI gmUI = new GuestMenuUI();
 				gmUI.runGuestMenuUI();
 				frame.setVisible(false);
 				frame.dispose();
