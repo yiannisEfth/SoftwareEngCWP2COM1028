@@ -51,7 +51,7 @@ public class CreateLeagueUI {
 		frame.getContentPane().setLayout(null);
 
 		scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 157, 879, 423);
+		scrollPane.setBounds(10, 157, 899, 423);
 		frame.getContentPane().add(scrollPane);
 		// Table to display the information for each created team.
 		table = new JTable();
@@ -155,8 +155,8 @@ public class CreateLeagueUI {
 
 			}
 		});
-		save_team_btn.setFont(new Font("Tahoma", Font.PLAIN, 23));
-		save_team_btn.setBounds(433, 11, 175, 141);
+		save_team_btn.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		save_team_btn.setBounds(433, 11, 138, 141);
 		frame.getContentPane().add(save_team_btn);
 
 		backToAdminBtn = new JButton("Back To Admin Menu");
@@ -170,9 +170,54 @@ public class CreateLeagueUI {
 				frame.dispose();
 			}
 		});
-		backToAdminBtn.setFont(new Font("Tahoma", Font.PLAIN, 23));
-		backToAdminBtn.setBounds(618, 11, 271, 139);
+		backToAdminBtn.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		backToAdminBtn.setBounds(580, 11, 201, 141);
 		frame.getContentPane().add(backToAdminBtn);
+		
+		JButton btnNewButton = new JButton("<html>Lazy<br>Team<br>Generator</html>");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				leagueManager.clearList();
+				model.setRowCount(0);
+				Stadium stadium1 = new Stadium("Team1 Stadium",23000);
+				Stadium stadium2 = new Stadium("Team2 Stadium",43000);
+				Stadium stadium3 = new Stadium("Team3 Stadium",35000);
+				Stadium stadium4 = new Stadium("Team4 Stadium",40000);
+				Stadium stadium5 = new Stadium("Team5 Stadium",15000);
+				Stadium stadium6 = new Stadium("Team6 Stadium",60000);
+				Stadium stadium7 = new Stadium("Team7 Stadium",80000);
+				Stadium stadium8 = new Stadium("Team8 Stadium",44500);
+				Stadium stadium9 = new Stadium("Team9 Stadium",75000);
+				Stadium stadium10 = new Stadium("Team10 Stadium",5000);
+				Stadium stadium11 = new Stadium("Team11 Stadium",800);
+				Stadium stadium12 = new Stadium("Team12 Stadium",33000);
+				Stadium stadium13 = new Stadium("Team13 Stadium",43000);
+				Stadium stadium14 = new Stadium("Team14 Stadium",60000);
+				Stadium stadium15 = new Stadium("Team15 Stadium",2000);
+				Stadium stadium16 = new Stadium("Team16 Stadium",1590);
+				Stadium[] stadiums = {stadium1, stadium2, stadium3, stadium4, stadium5,stadium6, stadium7, stadium8, stadium9, stadium10, stadium11, stadium12, stadium13, stadium14, stadium15, stadium16};
+				String[] teamNames = {"Team1", "Team2", "Team3", "Team4", "Team5", "Team6", "Team7", "Team8", "Team9", "Team10", "Team11", "Team12", "Team13", "Team14", "Team15", "Team16"};
+				SQLiteClass.disbandLeague();
+				SQLiteClass.createDB();
+				for(int i = 0; i < 16; i++) {
+					Team team = new Team(teamNames[i], stadiums[i]);
+					leagueManager.insertTeam(team);
+					SQLiteClass.insertTeam(teamNames[i], stadiums[i].getName(), stadiums[i].getCapacity());
+				}
+				loadTable(model);
+				JOptionPane.showMessageDialog(null,
+						"16 Teams have been entered and the league has been created. Returning to admin menu.",
+						"League Creation Complete", JOptionPane.INFORMATION_MESSAGE);
+				leagueManager.generateFixtures();
+				AdminMenuUI adminMenu = new AdminMenuUI(leagueManager);
+				adminMenu.runAdminMenu();
+				frame.setVisible(false);
+				frame.dispose();
+			}
+		});
+		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		btnNewButton.setBounds(782, 11, 127, 140);
+		frame.getContentPane().add(btnNewButton);
 
 		loadTable(model);
 	}

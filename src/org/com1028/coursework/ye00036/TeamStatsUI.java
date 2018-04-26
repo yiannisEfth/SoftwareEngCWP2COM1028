@@ -183,6 +183,7 @@ public class TeamStatsUI {
 		table.setBorder(new LineBorder(new Color(0, 0, 0)));
 		table.setModel(new DefaultTableModel(new Object[][] {},
 				new String[] { "Fixture", "Home Team", "Away Team", "Home Score", "Away Score", "Stadium" }));
+		table.getColumnModel().getColumn(0).setPreferredWidth(1);
 
 		JButton backtomenubtn = new JButton("Back To Menu");
 		// Listener for the back to menu button.

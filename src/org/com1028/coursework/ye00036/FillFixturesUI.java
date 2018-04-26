@@ -195,21 +195,17 @@ public class FillFixturesUI {
 		fillFixturesBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				int fixtureChosen = Integer.parseInt(comboBox.getSelectedItem().toString());
-				System.out.println("FIXTURE CHOSEN: " + fixtureChosen);
 				if (!checkFields()) {
 					JOptionPane.showMessageDialog(null,
 							"Invalid scores entered. Scores must be numbers in the range of 0-15", "Invalid Scores",
 							JOptionPane.INFORMATION_MESSAGE);
 				} else if (fixtureChosen > 1) {
-					System.out.println("FIXTURE >1");
 					if (!checkFixtureFinished(fixtureChosen - 1)) {
-						System.out.println("CANNOT FILL BECUASE PREVIOUS NOT FILLED >1");
 						JOptionPane.showMessageDialog(null,
 								"You cannot fill the results for this fixture because a previous fixture hasn't been played yet",
 								"Previous Fixtures Unfinished", JOptionPane.INFORMATION_MESSAGE);
 
 					} else if (checkFixtureFinished(fixtureChosen)) {
-						System.out.println("CURRENT FIXTURE ALREADY SET: " + (fixtureChosen - 1));
 						JOptionPane.showMessageDialog(null,
 								"The matches for this fixture have already been set. Please select a different fixture",
 								"Fixture already filled", JOptionPane.INFORMATION_MESSAGE);
@@ -269,7 +265,6 @@ public class FillFixturesUI {
 	 */
 	public void showFixtureMatches(DefaultTableModel model, int fixture) {
 		model.setRowCount(0);
-		System.out.println(leagueManager.getFixtures().size());
 		for (Fixture f : leagueManager.getFixtures()) {
 			if (f.getFixtureNumber() == fixture) {
 				for (int i = 0; i < f.getMatches().size(); i++) {
