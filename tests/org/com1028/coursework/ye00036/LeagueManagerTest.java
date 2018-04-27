@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 //JUnit test for the LeagueManager class
+//This is the class that the extensive and detailed tests will be carried out on.
 public class LeagueManagerTest {
 
 	@Before
