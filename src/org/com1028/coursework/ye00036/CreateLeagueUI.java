@@ -172,7 +172,7 @@ public class CreateLeagueUI {
 		backToAdminBtn.setBounds(580, 11, 201, 141);
 		frame.getContentPane().add(backToAdminBtn);
 
-		JButton lazyGeneratorBtn = new JButton("<html>Lazy<br>Team<br>Generator</html>");
+		JButton lazyGeneratorBtn = new JButton("<html>Auto<br>Team<br>Generator</html>");
 		// Listener for lazy team generator button. Generating all 16 teams.
 		lazyGeneratorBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

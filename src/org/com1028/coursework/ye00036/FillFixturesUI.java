@@ -239,7 +239,7 @@ public class FillFixturesUI {
 		backtomenubtn.setBounds(181, 363, 307, 58);
 		frame.getContentPane().add(backtomenubtn);
 
-		JButton lazyFillBtn = new JButton("Lazy Result Generator");
+		JButton lazyFillBtn = new JButton("Auto Result Generator");
 		// Listener for the lazy fill button. Generating scores for all matches of all
 		// fixtures.
 		lazyFillBtn.addActionListener(new ActionListener() {

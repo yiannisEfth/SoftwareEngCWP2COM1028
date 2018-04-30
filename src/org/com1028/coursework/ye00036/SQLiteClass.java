@@ -12,9 +12,9 @@ import java.util.List;
 
 //Class responsible for all commands to be executed in the database
 public class SQLiteClass {
-	// FOR WINDOWS USE: jdbc:sqlite:D:/sqlite/dbs/FLMS.db
-	// FOR MAC USE:
-	// jdbc:sqlite:/Users/yiannisefthyvoulou/Documents/SQLiteDbs/FLMS.db
+	// FOR WINDOWS USE SOMETHING LIKE: jdbc:sqlite:D:/sqlite/dbs/FLMS.db
+	// FOR MAC USE SOMETHING LIKE: jdbc:sqlite:/Users/yiannisefthyvoulou/Documents/SQLiteDbs/FLMS.db
+	
 	private static String url = "jdbc:sqlite:/Users/yiannisefthyvoulou/Documents/SQLiteDbs/FLMS.db";
 
 	// Create the database method
